@@ -1,7 +1,7 @@
 import { Key } from "react";
 
 export interface ProductType {
-  id: Key;
+  id: number;
   title: string;
   price: number;
   description: string;

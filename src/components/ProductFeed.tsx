@@ -53,10 +53,10 @@ function ProductFeed({ products }: Props) {
                 image,
                 rating,
               }: ProductType,
-              index
+              i
             ) => (
               <Product
-                key={index}
+                key={i}
                 id={id}
                 title={title}
                 price={price}
@@ -71,17 +71,20 @@ function ProductFeed({ products }: Props) {
       {products
         .slice(5, products.length)
         .map(
-          ({
-            id,
-            title,
-            price,
-            description,
-            category,
-            image,
-            rating,
-          }: ProductType) => (
+          (
+            {
+              id,
+              title,
+              price,
+              description,
+              category,
+              image,
+              rating,
+            }: ProductType,
+            i
+          ) => (
             <Product
-              key={id}
+              key={i}
               id={id}
               title={title}
               price={price}
