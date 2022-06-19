@@ -13,17 +13,20 @@ function ProductFeed({ products }: Props) {
       {products
         .slice(0, 4)
         .map(
-          ({
-            id,
-            title,
-            price,
-            description,
-            category,
-            image,
-            rating,
-          }: ProductType) => (
+          (
+            {
+              id,
+              title,
+              price,
+              description,
+              category,
+              image,
+              rating,
+            }: ProductType,
+            i
+          ) => (
             <Product
-              key={id}
+              key={i}
               id={id}
               title={title}
               price={price}
@@ -34,27 +37,26 @@ function ProductFeed({ products }: Props) {
             />
           )
         )}
-      <img
-        className="md:col-span-full"
-        src="https://links.papareact.com/dyz"
-        alt=""
-      />
+      <img className="md:col-span-full" src="https://links.papareact.com/dyz" />
 
       <div className="md:col-span-2">
         {products
           .slice(4, 5)
           .map(
-            ({
-              id,
-              title,
-              price,
-              description,
-              category,
-              image,
-              rating,
-            }: ProductType) => (
+            (
+              {
+                id,
+                title,
+                price,
+                description,
+                category,
+                image,
+                rating,
+              }: ProductType,
+              index
+            ) => (
               <Product
-                key={id}
+                key={index}
                 id={id}
                 title={title}
                 price={price}

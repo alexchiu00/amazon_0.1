@@ -14,13 +14,13 @@ function Banner() {
         interval={5000}
       >
         {[
-          <div>
+          <div key="1">
             <img src="https://links.papareact.com/gi1" loading="lazy" />
           </div>,
-          <div>
+          <div key="2">
             <img src="https://links.papareact.com/6ff" loading="lazy" />
           </div>,
-          <div>
+          <div key="3">
             <img src="https://links.papareact.com/7ma" loading="lazy" />
           </div>,
         ]}
