@@ -1,5 +1,3 @@
-import { Key } from "react";
-
 export interface ProductType {
   id: number;
   title: string;
@@ -16,3 +14,13 @@ interface Rating {
 }
 
 export interface Products extends Array<ProductType> {}
+
+export interface itemType {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  image: string;
+  rating: number;
+  hasPrime: boolean;
+}
