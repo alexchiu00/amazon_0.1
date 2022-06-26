@@ -18,23 +18,20 @@ const checkout = () => {
   const session = useSession();
   const createCheckOutSession = async () => {
     const stripe = await stripePromise;
-
-    const checkoutSession = await axios.post(
-      '/api/create-session',
-      {
-        items,
-        email: session.data?.user?.email
-      }
-    )
+    console.log(stripe);
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      items,
+      email: session.data?.user?.email,
+    });
 
     const result = await stripe?.redirectToCheckout({
       sessionId: checkoutSession.data.id,
-    })
+    });
 
     if (result?.error) {
-      alert(result.error.message)
+      alert(result.error.message);
     }
-  }
+  };
 
   return (
     <div className="bg-gray-100">
@@ -76,19 +73,21 @@ const checkout = () => {
               <h2 className="whitespace-nowrap">
                 Subtotal {items.length} items:{" "}
                 <span className="font-bold">
-                  <Currency quantity={total} currency="GBP" />
+                  <Currency quantity={total} currency="HKD" />
                 </span>
               </h2>
               <button
-              role='link'
-              onClick={createCheckOutSession}
-                disabled={session.status !== 'authenticated'}
+                role="link"
+                onClick={createCheckOutSession}
+                disabled={session.status !== "authenticated"}
                 className={`button mt-2 ${
-                  session.status !== 'authenticated' &&
+                  session.status !== "authenticated" &&
                   "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
                 }`}
               >
-                {session.status !== 'authenticated' ? "Sign in to checkout" : "Proceed to checkout"}
+                {session.status !== "authenticated"
+                  ? "Sign in to checkout"
+                  : "Proceed to checkout"}
               </button>
             </>
           )}

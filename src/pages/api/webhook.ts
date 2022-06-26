@@ -1,4 +1,4 @@
-import { buffer } from "micro";
+import { buffer } from "micri";
 import * as admin from "firebase-admin";
 
 const serviceAccount = require("../../../permissions.json");
@@ -18,13 +18,15 @@ const fulfillOrder = async (session: any) => {
     .collection("users")
     .doc(session.metadata.email)
     .collection("orders")
-    .doc(session.id).set({
-        amount: session.amount_total / 100,
-        amount_shipping: session.total_detail.amount_shipping / 100,
-        images: JSON.parse(session.metadata.images),
-        timestamp: admin.firestore.FieldValue.serverTimestamp
-    }).then(() => {
-        console.log(`Success: Order ${session.id} had been added to the DB`)
+    .doc(session.id)
+    .set({
+      amount: session.amount_total / 100,
+      amount_shipping: session.total_details.amount_shipping / 100,
+      images: JSON.parse(session.metadata.images),
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+    })
+    .then(() => {
+      console.log(`Success: Order ${session.id} had been added to the DB`);
     });
 };
 
@@ -33,7 +35,6 @@ export default async (req: any, res: any) => {
     const requestBuffer = await buffer(req);
     const payload = requestBuffer.toString();
     const sig = req.headers["stripe-signature"];
-
     let event;
 
     try {
@@ -44,6 +45,18 @@ export default async (req: any, res: any) => {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
+      return fulfillOrder(session)
+        .then(() => res.status(200))
+        .catch((error) => {
+          res.status(400).send(`Webhook error ${error.message}`);
+        });
     }
   }
+};
+
+export const config = {
+  api: {
+    bodyParser: false,
+    externalResolver: true,
+  },
 };
