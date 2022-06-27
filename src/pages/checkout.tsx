@@ -18,7 +18,6 @@ const checkout = () => {
   const session = useSession();
   const createCheckOutSession = async () => {
     const stripe = await stripePromise;
-    console.log(stripe);
     const checkoutSession = await axios.post(
       `${process.env.NEXT_PUBLIC_HOST}/api/create-checkout-session`,
       {
