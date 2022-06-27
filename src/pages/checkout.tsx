@@ -10,9 +10,7 @@ import { useSession } from "next-auth/react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-);
+const stripePromise = loadStripe(process.env.stripe_public_key!);
 
 const checkout = () => {
   const items = useSelector(selectItems);
@@ -20,6 +18,7 @@ const checkout = () => {
   const session = useSession();
   const createCheckOutSession = async () => {
     const stripe = await stripePromise;
+    console.log("stripe==========", stripe);
     const checkoutSession = await axios.post(
       `${process.env.NEXT_PUBLIC_HOST}/api/create-checkout-session`,
       {
@@ -27,11 +26,11 @@ const checkout = () => {
         email: session.data?.user?.email,
       }
     );
-
+    console.log("checkoutSession=====", checkoutSession);
     const result = await stripe?.redirectToCheckout({
       sessionId: checkoutSession.data.id,
     });
-
+    console.log("redirectToCheckout================", result);
     if (result?.error) {
       alert(result.error.message);
     }
