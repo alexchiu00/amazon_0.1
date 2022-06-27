@@ -4,14 +4,14 @@ export default async (req, res) => {
   const { items, email } = req.body;
 
   const transformedItems = items.map((item) => ({
-    description: item.description,
-    quantity: 1,
+    quantity: item.amount,
     price_data: {
       currency: "hkd",
       unit_amount: item.price * 100,
       product_data: {
         name: item.title,
         images: [item.image],
+        description: item.description,
       },
     },
   }));
