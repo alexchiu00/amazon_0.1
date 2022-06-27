@@ -1,15 +1,6 @@
-import { itemType } from "../../types/type";
+import { itemType, Request } from "../../types/type";
 
 const stripe = require("stripe")(process.env.stripe_secret_key);
-
-interface RequestBody {
-  items: itemType[];
-  email: string;
-}
-
-interface Request {
-  body: RequestBody;
-}
 
 export default async (req: Request, res: any) => {
   const { items, email } = req.body;

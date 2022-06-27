@@ -1,11 +1,6 @@
 import React from "react";
-import { notInitialized } from "react-redux/es/utils/useSyncExternalStore";
-import { ProductType, Products } from "../types/type";
+import { ProductType, Props } from "../types/type";
 import Product from "./Product";
-
-interface Props {
-  products: Products;
-}
 
 function ProductFeed({ products }: Props) {
   return (
