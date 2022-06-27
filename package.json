@@ -26,7 +26,7 @@
     "react-icons": "^4.4.0",
     "react-redux": "^8.0.2",
     "react-responsive-carousel": "^3.2.23",
-    "stripe": "^9.9.0"
+    "stripe": "8.149.0"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.0",
