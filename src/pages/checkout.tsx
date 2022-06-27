@@ -7,11 +7,32 @@ import CheckoutProduct from "../components/CheckoutProduct";
 import { itemType } from "../types/type";
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+
+const stripePromise = loadStripe(process.env.stripe_public_key!);
 
 const checkout = () => {
   const items = useSelector(selectItems);
   const total = useSelector(selectTotal);
   const session = useSession();
+  const createCheckOutSession = async () => {
+    const stripe = await stripePromise;
+    console.log(stripe);
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      items,
+      email: session.data?.user?.email,
+    });
+
+    const result = await stripe?.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+
+    if (result?.error) {
+      alert(result.error.message);
+    }
+  };
+
   return (
     <div className="bg-gray-100">
       <Header />
@@ -25,7 +46,7 @@ const checkout = () => {
             objectFit="contain"
           />
 
-          <div className="flex felx-col p-5 space-y-10 bg-white">
+          <div className="flex flex-col p-5 space-y-10 bg-white">
             <h1 className="text-3xl border-b pb-4">
               {items.length === 0
                 ? "Your Amazon Basket is empty."
@@ -52,17 +73,21 @@ const checkout = () => {
               <h2 className="whitespace-nowrap">
                 Subtotal {items.length} items:{" "}
                 <span className="font-bold">
-                  <Currency quantity={total} currency="GBP" />
+                  <Currency quantity={total} currency="HKD" />
                 </span>
               </h2>
               <button
-                disabled={!session}
+                role="link"
+                onClick={createCheckOutSession}
+                disabled={session.status !== "authenticated"}
                 className={`button mt-2 ${
-                  !session &&
-                  "from-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
+                  session.status !== "authenticated" &&
+                  "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
                 }`}
               >
-                {!session ? "Sign in to checkout" : "Proceed to checkout"}
+                {session.status !== "authenticated"
+                  ? "Sign in to checkout"
+                  : "Proceed to checkout"}
               </button>
             </>
           )}
