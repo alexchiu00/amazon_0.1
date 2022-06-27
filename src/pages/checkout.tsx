@@ -20,7 +20,7 @@ const checkout = () => {
     const stripe = await stripePromise;
     console.log(stripe);
     const checkoutSession = await axios.post(
-      `${process.env.HOST}/api/create-checkout-session`,
+      `${process.env.NEXT_PUBLIC_HOST}/api/create-checkout-session`,
       {
         items,
         email: session.data?.user?.email,
