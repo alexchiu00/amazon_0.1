@@ -1,11 +1,9 @@
-import { itemType, Request } from "../../types/type";
-
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export default async (req: Request, res: any) => {
+export default async (req, res) => {
   const { items, email } = req.body;
 
-  const transformedItems = items.map((item: itemType) => ({
+  const transformedItems = items.map((item) => ({
     description: item.description,
     quantity: 1,
     price_data: {
@@ -31,7 +29,7 @@ export default async (req: Request, res: any) => {
     cancel_url: `${process.env.NEXT_PUBLIC_HOST}/checkout`,
     metadata: {
       email,
-      images: JSON.stringify(items.map((item: itemType) => item.image)),
+      images: JSON.stringify(items.map((item) => item.image)),
     },
   });
 
