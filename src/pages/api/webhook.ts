@@ -8,9 +8,9 @@ const app = !admin.apps.length
     })
   : admin.app();
 
-const stripe = require("stripe")(process.env.stripe_secret_key);
+const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
-const endpointSecret = process.env.stripe_signing_secret;
+const endpointSecret = process.env.STRIPE_SIGNING_SECRET;
 
 const fulfillOrder = async (session: any) => {
   return app
