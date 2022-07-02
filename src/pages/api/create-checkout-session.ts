@@ -1,9 +1,9 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.stripe_secret_key);
 
-export default async (req:any, res:any) => {
+export default async (req: any, res: any) => {
   const { items, email } = req.body;
 
-  const transformedItems = items.map((item:any) => ({
+  const transformedItems = items.map((item: any) => ({
     quantity: 1,
     price_data: {
       currency: "hkd",
@@ -29,7 +29,7 @@ export default async (req:any, res:any) => {
       cancel_url: `${process.env.NEXT_PUBLIC_HOST}/checkout`,
       metadata: {
         email,
-        images: JSON.stringify(items.map((item:any) => item.image)),
+        images: JSON.stringify(items.map((item: any) => item.image)),
       },
     });
     res.status(200).json({ id: session.id });
