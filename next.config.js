@@ -9,7 +9,7 @@ const nextConfig = {
   },
   env: {
     stripe_public_key: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-    stripe_secret_key: process.env.STRIPE_SECRET_KEY,
+    stripe_secret_key: process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY,
     stripe_signing_secret: process.env.STRIPE_SIGNING_SECRET,
   },
 };
