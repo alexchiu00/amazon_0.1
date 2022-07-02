@@ -18,7 +18,6 @@ const checkout = () => {
   const session = useSession();
   const createCheckOutSession = async () => {
     const stripe = await stripePromise;
-    console.log("stripe==========", stripe);
     const checkoutSession = await axios.post(
       `${process.env.NEXT_PUBLIC_HOST}/api/create-checkout-session`,
       {
@@ -30,7 +29,6 @@ const checkout = () => {
     const result = await stripe?.redirectToCheckout({
       sessionId: checkoutSession.data.id,
     });
-    console.log("redirectToCheckout================", result);
     if (result?.error) {
       alert(result.error.message);
     }
