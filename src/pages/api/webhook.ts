@@ -1,5 +1,6 @@
-import { buffer } from "micri";
+import { buffer } from "micro";
 import * as admin from "firebase-admin";
+import Cors from "micro-cors";
 
 const serviceAccount = require("../../../permissions.json");
 const app = !admin.apps.length
@@ -11,6 +12,10 @@ const app = !admin.apps.length
 const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
 const endpointSecret = process.env.STRIPE_SIGNING_SECRET;
+
+const cors = Cors({
+  allowMethods: ["POST", "HEAD"],
+});
 
 const fulfillOrder = async (session: any) => {
   return app
