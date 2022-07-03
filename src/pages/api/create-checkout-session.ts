@@ -34,6 +34,6 @@ export default async (req: any, res: any) => {
     });
     res.status(200).json({ id: session.id });
   } catch (error) {
-    console.log(error);
+    res.status(400).json(error);
   }
 };
