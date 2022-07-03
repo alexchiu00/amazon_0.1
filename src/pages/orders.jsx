@@ -8,7 +8,6 @@ import Order from "../components/Order";
 
 const Orders = ({ orders }) => {
   const session = useSession();
-  console.log(orders);
   return (
     <div>
       <Header />
@@ -33,7 +32,7 @@ const Orders = ({ orders }) => {
 
 export async function getServerSideProps(context) {
   const stripe = require("stripe")(
-    '"sk_test_51LDg6mIRV64cFDkXNf7bUdvdwmWfeZcOyBoYILHw68IlZMmbCurq1d7DFyBA5FtWRNV3u5kO8bwphskhsxAprddc00Jrbg8py5"'
+    "sk_test_51LDg6mIRV64cFDkXNf7bUdvdwmWfeZcOyBoYILHw68IlZMmbCurq1d7DFyBA5FtWRNV3u5kO8bwphskhsxAprddc00Jrbg8py5"
   );
   const session = await getSession(context);
 
@@ -46,7 +45,6 @@ export async function getServerSideProps(context) {
   var orders;
   try {
     const stripeOrders = await getOrders(db, session?.user?.email);
-    consolo.log(stripeOrders);
     const orderFromDB = await Promise.all(
       stripeOrders.map(async (order) => ({
         id: order.id,
