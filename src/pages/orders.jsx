@@ -8,6 +8,7 @@ import Order from "../components/Order";
 
 const Orders = ({ orders }) => {
   const session = useSession();
+  console.log(orders);
   return (
     <div>
       <Header />
@@ -45,6 +46,7 @@ export async function getServerSideProps(context) {
   var orders;
   try {
     const stripeOrders = await getOrders(db, session?.user?.email);
+    consolo.log(stripeOrders);
     const orderFromDB = await Promise.all(
       stripeOrders.map(async (order) => ({
         id: order.id,
