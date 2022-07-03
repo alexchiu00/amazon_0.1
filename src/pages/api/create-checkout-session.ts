@@ -1,14 +1,11 @@
-import { AxiosResponse } from "axios";
-import { itemType, Request } from "../../types/type";
-
 const stripe = require("stripe")(
   "sk_test_51LDg6mIRV64cFDkXNf7bUdvdwmWfeZcOyBoYILHw68IlZMmbCurq1d7DFyBA5FtWRNV3u5kO8bwphskhsxAprddc00Jrbg8py5"
 );
 
-export default async (req: Request, res: any) => {
+export default async (req: any, res: any) => {
   const { items, email } = req.body;
 
-  const transformedItems = await items.map((item: itemType) => ({
+  const transformedItems = await items.map((item: any) => ({
     quantity: 1,
     description: item.description,
     price_data: {
@@ -34,7 +31,7 @@ export default async (req: Request, res: any) => {
       cancel_url: `${process.env.NEXT_PUBLIC_HOST}/checkout`,
       metadata: {
         email,
-        images: JSON.stringify(items.map((item: itemType) => item.image)),
+        images: JSON.stringify(items.map((item: any) => item.image)),
       },
     });
     res.status(200).json({ id: session.id });
